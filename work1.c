@@ -4,9 +4,16 @@
 #include <time.h> //time()
 #include <stdlib.h> // rand() 난수 생성, strand(time(Null)) 난수 시드(매번 다른 난수가 나오도록)
 int main(){
-    /*
-    1.보드 만들기
-    2.블럭 만들기
+    //1.보드 만들기
+    char ch_board1[12][22];//보드판 10(행)X20(열)
+    int ch_i; //반복 횟수
+    for (ch_i=0;ch_i<22;ch_i++){
+        ch_board1[0][ch_i]='■';
+        ch_board1[11][ch_i]='■';
+    }
+
+    
+   /* 2.블럭 만들기
     3.보드 블럭 상호작용
     4.블럭 내리기
         -(1) 기존 블럭 지우기
