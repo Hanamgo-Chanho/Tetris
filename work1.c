@@ -3,6 +3,11 @@
 #include <conio.h> // _kbhit() 키보드 누르면 1이 아닌 값 반환, _getch() 입력받은 키를 아스키 코드 값(정수)으로 변환
 #include <time.h> //time()
 #include <stdlib.h> // rand() 난수 생성, strand(time(Null)) 난수 시드(매번 다른 난수가 나오도록)
+#define LEFT 75//왼쪽 화살표 아스키코드를 LEFT으로 선언
+#define RIGHT 77//오른쪽 화살표 아스키코드를 RIGHT으로 선언
+#define UP 72 //위쪽 화살표 아스키코드를 UP으로 선언
+#define DOWN 80 //아래쪽 화살표 아스키코드를 DOWN으로 선언
+#define ARROW 224 //화살표 아스키코드를 ARROW로 선언
 int main(){
     //1.보드 만들기
     char ch_board1[12][22];//보드판 10(행)X20(열)
