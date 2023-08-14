@@ -8,6 +8,19 @@
 #define UP 72 //위쪽 화살표 아스키코드를 UP으로 선언
 #define DOWN 80 //아래쪽 화살표 아스키코드를 DOWN으로 선언
 #define ARROW 224 //화살표 아스키코드를 ARROW로 선언
+void GotoXY(int sy_x, int sy_y) {
+	COORD Pos;
+	Pos.X = sy_x;
+	Pos.Y = sy_y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+void CursorView(char sy_show)
+{
+	CONSOLE_CURSOR_INFO ConsoleCursor;
+	ConsoleCursor.bVisible = sy_show;
+	ConsoleCursor.dwSize = 1;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor);
+}
 int main(){
     //1.보드 만들기
     char ch_board1[12][22];//보드판 10(행)X20(열)
