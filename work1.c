@@ -8,13 +8,13 @@
 #define UP 72 //위쪽 화살표 아스키코드를 UP으로 선언
 #define DOWN 80 //아래쪽 화살표 아스키코드를 DOWN으로 선언
 #define ARROW 224 //화살표 아스키코드를 ARROW로 선언
-void GotoXY(int sy_x, int sy_y) {
+void GotoXY(int sy_x, int sy_y) {  //x,y 좌표 이용 설정
 	COORD Pos;
 	Pos.X = sy_x;
 	Pos.Y = sy_y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
-void CursorView(char sy_show)
+void CursorView(char sy_show) //깜박이는 커서 안보이게 하는 함수
 {
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 	ConsoleCursor.bVisible = sy_show;
