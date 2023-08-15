@@ -8,56 +8,322 @@
 #define UP 72 //위쪽 화살표 아스키코드를 UP으로 선언
 #define DOWN 80 //아래쪽 화살표 아스키코드를 DOWN으로 선언
 #define ARROW 224 //화살표 아스키코드를 ARROW로 선언
-void GotoXY(int sy_x, int sy_y) {  //x,y 좌표 이용 설정
+int sy_x, sy_y, sy_i, sy_j;
+int sy_block_shape;
+int ch_block_kind;
+int ch_block_rotate;
+int ch_board[12][22];//보드판 10(행)X20(열)
+int ch_x, ch_y; //반복 횟수
+int ch_block[8][4][4][4] = { {
+	 {	{0,0,0,0},
+		 {0,2,2,0},
+		 {0,2,2,0},
+		 {0,0,0,0}
+	 },
+	 {	{0,0,0,0},
+		 {0,2,2,0},
+		 {0,2,2,0},
+		 {0,0,0,0}
+	 },
+	 {	{0,0,0,0},
+		 {0,2,2,0},
+		 {0,2,2,0},
+		 {0,0,0,0}
+	 },
+	 {	{0,0,0,0},
+		 {0,2,2,0},
+		 {0,2,2,0},
+		 {0,0,0,0}
+	 }
+	},
+{
+	{	{0,0,0,0},
+		{0,0,0,0},
+		{2,2,2,2},
+		{0,0,0,0}
+	},
+	{	{0,0,2,0},
+		{0,0,2,0},
+		{0,0,2,0},
+		{0,0,2,0}
+	},
+	{	{0,0,0,0},
+		{0,0,0,0},
+		{2,2,2,2},
+		{0,0,0,0}
+	},
+	{	{0,0,2,0},
+		{0,0,2,0},
+		{0,0,2,0},
+		{0,0,2,0}
+	}
+},
+{
+	{	{0,0,0,0},
+		{0,0,2,0},
+		{0,0,2,0},
+		{0,2,2,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,2},
+		{0,0,0,2},
+		{0,0,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{0,2,0,0},
+		{0,2,0,0}
+	},
+	{	{0,0,0,0},
+		{2,0,0,0},
+		{2,2,2,0},
+		{0,0,0,0}
+	}
+},
+{
+	{	{0,0,0,0},
+		{0,2,0,0},
+		{0,2,0,0},
+		{0,2,2,0}
+	},
+	{	{0,0,0,0},
+		{2,2,2,0},
+		{2,0,0,0},
+		{0,0,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{0,2,0,0},
+		{0,2,0,0}
+	},
+	{	{0,0,0,0},
+		{0,0,0,2},
+		{0,2,2,2},
+		{0,0,0,0}
+	}
+},
+{
+	{	{0,0,0,0},
+		{0,0,2,0},
+		{0,2,2,0},
+		{0,2,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{0,0,2,2},
+		{0,0,0,0}
+	},
+	{	{0,0,0,0},
+		{0,0,2,0},
+		{0,2,2,0},
+		{0,2,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{0,0,2,2},
+		{0,0,0,0}
+	}
+},
+{
+	{	{0,0,0,0},
+		{0,2,0,0},
+		{0,2,2,0},
+		{0,0,2,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{2,2,0,0},
+		{0,0,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,0,0},
+		{0,2,2,0},
+		{0,0,2,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,0},
+		{2,2,0,0},
+		{0,0,0,0}
+	}
+},
+{
+	{	{0,0,0,0},
+		{0,0,2,0},
+		{0,2,2,2},
+		{0,0,0,0}
+	},
+	{	{0,0,2,0},
+		{0,2,2,0},
+		{0,0,2,0},
+		{0,0,0,0}
+	},
+	{	{0,0,0,0},
+		{0,2,2,2},
+		{0,0,2,0},
+		{0,0,0,0}
+	},
+	{	{0,0,2,0},
+		{0,0,2,2},
+		{0,0,2,0},
+		{0,0,0,0}
+	}
+},
+	{
+		{ {0,0,0,0},
+			{ 0,0,0,0 },
+			{ 0,0,0,0 },
+			{ 0,0,0,0 }
+		},
+		{ {0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		},
+		{ {0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		},
+		{ {0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		}
+	}
+};                      //블럭만들기
+void GotoXY(int sy_x, int sy_y) {
 	COORD Pos;
 	Pos.X = sy_x;
 	Pos.Y = sy_y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
-void CursorView(char sy_show) //깜박이는 커서 안보이게 하는 함수
+void CursorView(char sy_show)
 {
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 	ConsoleCursor.bVisible = sy_show;
 	ConsoleCursor.dwSize = 1;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor);
-}
-int main(){
-    //1.보드 만들기
-    char ch_board1[12][22];//보드판 10(행)X20(열)
-    int ch_i; //반복 횟수
-    for (ch_i=0;ch_i<22;ch_i++){
-        ch_board1[0][ch_i]='■';
-        ch_board1[11][ch_i]='■';
-    }
+}       //커서 안보이게 하는거
+void BlockCreate(int sy_blockshape) {
+	for (int sy_i = 0; sy_i < 4; sy_i++) {
+		for (int sy_j = 0; sy_j < 4; sy_j++) {
+			if (ch_block[sy_blockshape][0][sy_i][sy_j] == 2) {
+				GotoXY(sy_i * 2, sy_j);
+				printf("ㅁ");
+			}
+		}
+	}
+} 
+/*int ch_emptycheck() {
+	for (sy_i = 0; sy_i < 4; sy_i++) {
+		for (sy_j = 0; sy_j < 4; sy_j++) {
+			if (ch_block[ch_block_kind][ch_block_rotate][sy_j][sy_i] == 2) {
+				GotoXY(sy_i * 2, sy_j - 1);
+				if (ch_board[sy_i * 2][sy_j] == 1) return 1;
+			}
+		}
+	}
+	return 0;
+}*/
+void BoardMake(){
+	for (ch_x = 0; ch_x < 12; ch_x++) {
+		for (ch_y = 0; ch_y < 22; ch_y++) {
+			ch_board[ch_x][ch_y] = 0;
+		}
+	}
+	for (ch_y = 0; ch_y < 22; ch_y++) {
+		ch_board[0][ch_y] = 1;
+		ch_board[11][ch_y] = 1;
+	}
+	for (ch_x = 0; ch_x < 12; ch_x++) ch_board[ch_x][21] = 1;
 
-    
-   /* 2.블럭 만들기
-    3.보드 블럭 상호작용
-    4.블럭 내리기
-        -(1) 기존 블럭 지우기
-        -(2) 내려간 블럭 출력하기
-        -(3) 보드 바닥 인식하고 멈추기
-        -(4) 쌓인 블럭 인식하고 멈추기
-    5.방향키 이벤트 처리
-        -(1) 키보드 입력 인식
-        -(2) 블럭 좌우 이동
-        -(3) 이동 시 보드 벽면 인식하고 멈추기
-        -(4) 아래 키로 빨리 내려가기
-        -(5) 위 키로 한 번에 내리기
-        -(6) 스페이스로 회전시키기
-        -(7) 회전 시 보드 벽면 인식하고 멈추기
-        *심화 -(8) 홀드 키 구현
-    6.게임 룰 진행
-        -(1) 앞블럭 이벤트 종료 인식
-        -(2) 랜덤으로 새로운 블럭 생성
-        -(3) 한 줄 꽉 차면 지우기
-        -(4) 지우고 위에 블럭 한 칸씩 내리기
-        -(5) 블럭 생성 위치에 이미 쌓인 블럭 있는지 판단
-        -(6) 게임 오버 판정, 모두 멈추기
-    *심화
-    7.스코어 내기
-    8.블럭 색칠하기
-    9.낙하 속도 조절하기
-    10.배경음악 넣기        */
-    return 0;
+	for (ch_x = 0; ch_x < 12; ch_x++) {
+		for (ch_y = 0; ch_y < 22; ch_y++) {
+			if (ch_board[ch_x][ch_y] == 1) {
+				GotoXY(ch_x * 2, ch_y);
+				printf("▩");
+			}
+		}
+	}
+}
+void ch_block_end() {
+	for (sy_i = 0; sy_i < 4; sy_i++) {
+		for (sy_j = 0; sy_j < 4; sy_j++) {
+			if (ch_block[ch_block_kind][ch_block_rotate][sy_j][sy_i] == 2) {
+				GotoXY(sy_i * 2, sy_j);
+				ch_board[sy_i * 2][sy_j] = 1;
+			}
+			printf("   ");
+		}
+	}
+	BlockCreate(2);
+	Lineclear();
+}
+void lineclear() {
+	int goalscore;
+	int ch_linecheck;
+	int ch_y2;
+	for (ch_y = 0; ch_y < 21; ch_y++) {
+		ch_y2 = ch_y;
+		for (ch_x = 1; ch_x < 11; ch++) {
+			ch_linecheck += ch_board[ch_x][ch_y];
+		}
+		if (ch_linecheck == 10) {
+			goalscore += 100;
+			for (ch_y2; ch_y2 > 0; ch_y2--) {
+				for (ch_x = 1; ch_x < 11; ch_x++) {
+					ch_board[ch_x][ch_y2] = ch_board[ch_x][ch_y2 - 1];
+				}
+			}
+			for (ch_y2 = 0; ch_y2 < 11; ch_y2++) {
+				for (ch_x = 1; ch_x < 11; ch_x++) {
+					GotoXY(ch_x, ch_y2);
+					if (ch_board[ch_x][ch_y2] == 1) {
+						printf("□");
+					}
+					else printf("  ");
+				}
+			}
+		}
+	}
+}
+sy_x = 2; sy_y = 1;
+int main(void) {
+    BoardMake();
+	CursorView(1);
+	GotoXY(sy_x, sy_y);
+	while (1) {
+		BlockCreate(2);
+		if (sy_y < 20) {
+			GotoXY(sy_x, sy_y);
+			BlockCreate(7);
+			sy_y++;
+		}
+		GotoXY(sy_x, sy_y);
+		BlockCreate(2);
+		Sleep(1000); 
+		if (_kbhit()) {
+			int sy_nkey = _getch();
+			if (sy_nkey == ARROW) {
+				sy_nkey = _getch();
+				GotoXY(sy_x, sy_y);
+				BlockCreate(7);
+				switch (sy_nkey) {
+				case LEFT:
+					if (sy_x > 2) sy_x--;
+					break;
+				case RIGHT:
+					if (sy_x < 20) sy_x++;
+					break;
+				case DOWN:
+					if (sy_y < 20) sy_y++;
+					break;
+				case ROTATE:
+					break;
+				}
+			}
+		}
+		GotoXY(sy_x, sy_y);
+	}
+	return 0;
 }
