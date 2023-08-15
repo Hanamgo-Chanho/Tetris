@@ -8,7 +8,8 @@
 #define UP 72 //위쪽 화살표 아스키코드를 UP으로 선언
 #define DOWN 80 //아래쪽 화살표 아스키코드를 DOWN으로 선언
 #define ARROW 224 //화살표 아스키코드를 ARROW로 선언
-int sy_x, sy_y, sy_i, sy_j;
+#define ROTATE 32
+int sy_x, sy_y,sy_i,sy_j;
 int sy_block_shape;
 int ch_block_kind;
 int ch_block_rotate;
@@ -204,16 +205,20 @@ void CursorView(char sy_show)
 	ConsoleCursor.dwSize = 1;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor);
 }       //커서 안보이게 하는거
-void BlockCreate(int sy_blockshape) {
+void BlockCreate(int sy_blockshape,int sy_block_x,int sy_block_y) {
 	for (int sy_i = 0; sy_i < 4; sy_i++) {
 		for (int sy_j = 0; sy_j < 4; sy_j++) {
-			if (ch_block[sy_blockshape][0][sy_i][sy_j] == 2) {
-				GotoXY(sy_i * 2, sy_j);
+			if (ch_block[sy_blockshape][0][sy_j][sy_i] == 2) {
+				GotoXY(sy_block_x+sy_i*2, sy_block_y+sy_j);
 				printf("ㅁ");
+			}
+			else if (ch_block[sy_blockshape][0][sy_j][sy_i] == 0) {
+				GotoXY(sy_block_x + sy_i * 2, sy_block_y + sy_j);
+				printf(" ");
 			}
 		}
 	}
-} 
+}
 /*int ch_emptycheck() {
 	for (sy_i = 0; sy_i < 4; sy_i++) {
 		for (sy_j = 0; sy_j < 4; sy_j++) {
@@ -225,7 +230,7 @@ void BlockCreate(int sy_blockshape) {
 	}
 	return 0;
 }*/
-void BoardMake(){
+void BoardMake() {
 	for (ch_x = 0; ch_x < 12; ch_x++) {
 		for (ch_y = 0; ch_y < 22; ch_y++) {
 			ch_board[ch_x][ch_y] = 0;
@@ -246,26 +251,13 @@ void BoardMake(){
 		}
 	}
 }
-void ch_block_end() {
-	for (sy_i = 0; sy_i < 4; sy_i++) {
-		for (sy_j = 0; sy_j < 4; sy_j++) {
-			if (ch_block[ch_block_kind][ch_block_rotate][sy_j][sy_i] == 2) {
-				GotoXY(sy_i * 2, sy_j);
-				ch_board[sy_i * 2][sy_j] = 1;
-			}
-			printf("   ");
-		}
-	}
-	BlockCreate(2);
-	Lineclear();
-}
 void lineclear() {
-	int goalscore;
-	int ch_linecheck;
+	int goalscore=0;
+	int ch_linecheck=0;
 	int ch_y2;
 	for (ch_y = 0; ch_y < 21; ch_y++) {
 		ch_y2 = ch_y;
-		for (ch_x = 1; ch_x < 11; ch++) {
+		for (ch_x = 1; ch_x < 11; ch_x++) {
 			ch_linecheck += ch_board[ch_x][ch_y];
 		}
 		if (ch_linecheck == 10) {
@@ -287,27 +279,39 @@ void lineclear() {
 		}
 	}
 }
+void ch_block_end() {
+	for (sy_i = 0; sy_i < 4; sy_i++) {
+		for (sy_j = 0; sy_j < 4; sy_j++) {
+			if (ch_block[ch_block_kind][ch_block_rotate][sy_j][sy_i] == 2) {
+				GotoXY(sy_i * 2, sy_j);
+				ch_board[sy_i * 2][sy_j] = 1;
+			}
+			printf("   ");
+		}
+	}
+	BlockCreate(1,sy_x,sy_y);
+	lineclear();
+}
 sy_x = 2; sy_y = 1;
 int main(void) {
-    BoardMake();
-	CursorView(1);
+	BoardMake();
+	CursorView(0);
 	GotoXY(sy_x, sy_y);
 	while (1) {
-		BlockCreate(2);
-		if (sy_y < 20) {
+		BlockCreate(1,sy_x,sy_y);
+		Sleep(500);
+		if (sy_y < 18) {
 			GotoXY(sy_x, sy_y);
-			BlockCreate(7);
+			BlockCreate(7,sy_x,sy_y);
 			sy_y++;
 		}
 		GotoXY(sy_x, sy_y);
-		BlockCreate(2);
-		Sleep(1000); 
 		if (_kbhit()) {
 			int sy_nkey = _getch();
 			if (sy_nkey == ARROW) {
 				sy_nkey = _getch();
 				GotoXY(sy_x, sy_y);
-				BlockCreate(7);
+				BlockCreate(7,sy_x,sy_y);
 				switch (sy_nkey) {
 				case LEFT:
 					if (sy_x > 2) sy_x--;
@@ -316,7 +320,7 @@ int main(void) {
 					if (sy_x < 20) sy_x++;
 					break;
 				case DOWN:
-					if (sy_y < 20) sy_y++;
+					if (sy_y < 18) sy_y++;
 					break;
 				case ROTATE:
 					break;
@@ -324,6 +328,7 @@ int main(void) {
 			}
 		}
 		GotoXY(sy_x, sy_y);
+		BlockCreate(1,sy_x,sy_y);
 	}
 	return 0;
 }
