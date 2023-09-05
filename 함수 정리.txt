@@ -1,0 +1,14 @@
+함수 정리
+GotoXY(x좌표,y좌표)	-커서 위치 이동
+CursorView -커서 가리기
+BlockCreate(모양,왼쪽 끝 x좌표, 위쪽 끝 y좌표) -위치에 블럭 출력
+ch_emptycheck()		-보드, 블럭 상호작용
+BoardMake()		-보드 만들기
+lineclear() 		-한 줄 없애기 및 위에 쌓인 블럭 내리기
+ch_block_end()		-블럭 착지 시 보드판에 1로 표시
+main함수
+
+실행과정
+main
+BoardMake()
+CursorView
